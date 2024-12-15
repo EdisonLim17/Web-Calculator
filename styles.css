@@ -1,0 +1,33 @@
+#main {
+    aspect-ratio: 1 / 1.5;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+}
+
+#display {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    text-align: right;
+    font-size: 7vw;
+}
+
+#buttons {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonRow {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+button {
+    flex: 1;
+    font-size: 3vw;
+}
