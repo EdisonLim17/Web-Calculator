@@ -114,7 +114,7 @@ function addValToDisplay(displayVal, val){
 
         case "=":
             //evaluates the expression in the displayVal and updates displayVal with the result
-            displayVal = evaluate(displayVal);
+            displayVal = evaluate(displayVal).join("");
             break;
 
         default:
@@ -147,11 +147,12 @@ function evaluate(val){
     }
 
     //repeatedly execute the operators within the array until the array forms one number (no operators)
-    while(isNaN(arr)){
+    while(isNaN(arr.join(""))){
         let num1 = "", op = "", num2 = "";
 
         let i = 0;
-
+        
+        //creates a string from arr representing the first number of the operation
         while(!isNaN(arr[i])){
             num1 += arr[i];
             i++;
@@ -161,10 +162,12 @@ function evaluate(val){
             num1 += arr[i];
             i++;
         }
-
+        
+        //creates a string from arr representing the operator of the operation
         op = arr[i];
         i++;
 
+        //creates a strubg frin arr representing the second number of the operation
         while(!isNaN(arr[i]) && i < arr.length){
             num2 += arr[i];
             i++;
@@ -174,9 +177,14 @@ function evaluate(val){
             i++;
         }
 
-        result = operate(parseInt(num1), op, parseInt(num2));
+        //evaluates the operation and stores the result
+        let result = operate(parseInt(num1), op, parseInt(num2));
 
-        arr = [result] + arr.slice(i);
+        //arr = arr.slice(i).unshift(result.toString());
+        arr.splice(0, num1.length + num2.length + 1);
+        arr = result.toString().split("").concat(arr);
+
+        console.log(arr);
 
         // console.log(num1);
         // console.log(op);
@@ -185,7 +193,7 @@ function evaluate(val){
 
     return arr;
 
-    //must still evaluate % and tell program to multiply numbers after %
+    //must still evaluate % and tell program to multiply numbers after % and deal with negatives
 }
 
 let displayVal = "";
