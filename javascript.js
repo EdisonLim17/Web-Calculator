@@ -37,6 +37,8 @@ function operate(num1, op, num2){
 //takes the input val and alters the displayVal accordingly
 function addValToDisplay(displayVal, val){
     let lastChar = displayVal[displayVal.length - 1];
+    let secondLastChar = displayVal[displayVal.length - 2];
+    let thirdLastChar = displayVal[displayVal.length - 3];
 
     switch(val){
         case "AC":
@@ -52,9 +54,19 @@ function addValToDisplay(displayVal, val){
             break;
 
         case "%":
-            if(lastChar === "÷" || lastChar === "×" || lastChar == "-" || lastChar === "+"){
-                //Replaces last input with "%" if it was an operator
-                displayVal = displayVal.slice(0, displayVal.length - 1).concat(val);
+            if(lastChar === "%" || lastChar === "÷" || lastChar === "×" || lastChar == "-" || lastChar === "+"){
+                //Replaces last input(s) with "%" if they were operators or "%"
+                if(secondLastChar === "%" || secondLastChar === "÷" || secondLastChar === "×"){
+                    if(thirdLastChar === "%"){
+                        displayVal = displayVal.slice(0, displayVal.length - 3).concat(val);
+                    }
+                    else{
+                        displayVal = displayVal.slice(0, displayVal.length - 2).concat(val);
+                    }
+                }
+                else{
+                    displayVal = displayVal.slice(0, displayVal.length - 1).concat(val);
+                }
             }
             else {
                 //Adds "%" to displayVal otherwise
@@ -66,8 +78,6 @@ function addValToDisplay(displayVal, val){
         case "×":
         case "+":
             if(lastChar === "-"){
-                let secondLastChar = displayVal[displayVal.length - 2];
-
                 if(secondLastChar === "÷" || secondLastChar === "×"){
                     //Replaces last two inputs with the operator in val if they were a "÷" or "×" followed by a "-"
                     displayVal = displayVal.slice(0, displayVal.length - 2).concat(val);
@@ -119,7 +129,7 @@ function addValToDisplay(displayVal, val){
 
         default:
             //Adds val to displayVal otherwise
-            displayVal = displayVal.concat(val);
+            if(lastChar !== "%") displayVal = displayVal.concat(val);
     }
     
     return displayVal;
@@ -153,13 +163,17 @@ function evaluate(val){
         let i = 0;
         
         //creates a string from arr representing the first number of the operation
-        while(!isNaN(arr[i])){
+        while(!isNaN(arr[i]) || arr[i] === "." || arr[i] === "-"){
+            if(arr[i] === "-"){
+                if(num1 !== ""){
+                    break;
+                }
+            }
             num1 += arr[i];
             i++;
-            //console.log(num1);
         }
         if(arr[i] === "%"){
-            num1 += arr[i];
+            num1 = (parseFloat(num1) / 100).toString();
             i++;
         }
         
@@ -168,32 +182,31 @@ function evaluate(val){
         i++;
 
         //creates a strubg frin arr representing the second number of the operation
-        while(!isNaN(arr[i]) && i < arr.length){
+        while(i < arr.length && (!isNaN(arr[i]) || arr[i] === "." || arr[i] === "-")){
+            if(arr[i] === "-"){
+                if(num2 !== ""){
+                    break;
+                }
+            }
             num2 += arr[i];
             i++;
         }
         if(i < arr.length && arr[i] === "%"){
-            num2 += arr[i];
+            num2 = (parseFloat(num2) / 100).toString();
             i++;
         }
 
         //evaluates the operation and stores the result
-        let result = operate(parseInt(num1), op, parseInt(num2));
+        let result = operate(parseFloat(num1), op, parseFloat(num2));
 
         //arr = arr.slice(i).unshift(result.toString());
         arr.splice(0, num1.length + num2.length + 1);
         arr = result.toString().split("").concat(arr);
 
         console.log(arr);
-
-        // console.log(num1);
-        // console.log(op);
-        // console.log(num2);
     }
 
     return arr;
-
-    //must still evaluate % and tell program to multiply numbers after % and deal with negatives
 }
 
 let displayVal = "";
