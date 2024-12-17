@@ -128,8 +128,15 @@ function addValToDisplay(displayVal, val){
             break;
 
         default:
-            //Adds val to displayVal otherwise
-            if(lastChar !== "%") displayVal = displayVal.concat(val);
+            //Adds val to displayVal otherwise, it the last input wasn't "%"
+            if(lastChar !== "%"){
+                if(findLastNum(displayVal) === "0"){
+                    //Replace leading 0 with the number if it isn't "0"
+                    if(val !== "0") displayVal = displayVal.slice(0, displayVal.length - 1).concat(val);
+                }
+                //Add number to displayVal otherwise
+                else displayVal = displayVal.concat(val);
+            }
     }
     
     return displayVal;
@@ -198,12 +205,14 @@ function evaluate(val){
 
         //evaluates the operation and stores the result
         let result = operate(parseFloat(num1), op, parseFloat(num2));
+        if(result === "infinity"){
+            arr = result.split("");
+            break;
+        }
 
         //arr = arr.slice(i).unshift(result.toString());
         arr.splice(0, num1.length + num2.length + 1);
         arr = result.toString().split("").concat(arr);
-
-        console.log(arr);
     }
 
     return arr;
