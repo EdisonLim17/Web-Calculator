@@ -30,6 +30,7 @@ function operate(num1, op, num2){
         return divide(num1, num2);
     }
     else{
+        //is this possible?
         return "Invalid Operator";
     }
 }
@@ -166,6 +167,7 @@ function evaluate(val){
     //repeatedly execute the operators within the array until the array forms one number (no operators)
     while(isNaN(arr.join(""))){
         let num1 = "", op = "", num2 = "";
+        let num1Length = 0, num2Length = 0;
 
         let i = 0;
         
@@ -177,18 +179,36 @@ function evaluate(val){
                 }
             }
             num1 += arr[i];
+            num1Length++;
             i++;
         }
         if(arr[i] === "%"){
             num1 = (parseFloat(num1) / 100).toString();
+            num1Length++;
             i++;
+        }
+
+        //if the array consists of a single percentage, return the evaluated percentage
+        if(i === arr.length) {
+            //round result to 14 digits so that it doesn't overflow the display
+            if(num1.length > 14){
+                let numRoundedIntegerLength = Math.round(parseFloat(num1)).toString().length;
+                if(numRoundedIntegerLength >= 14){
+                    num1 = Math.round(parseFloat(num1));
+                }
+                else{
+                    num1 = parseFloat(num1).toFixed(14 - numRoundedIntegerLength);
+                }
+            }
+            arr = num1.toString().split("");
+            break;
         }
         
         //creates a string from arr representing the operator of the operation
         op = arr[i];
         i++;
 
-        //creates a strubg frin arr representing the second number of the operation
+        //creates a string arr representing the second number of the operation
         while(i < arr.length && (!isNaN(arr[i]) || arr[i] === "." || arr[i] === "-")){
             if(arr[i] === "-"){
                 if(num2 !== ""){
@@ -196,10 +216,12 @@ function evaluate(val){
                 }
             }
             num2 += arr[i];
+            num2Length++;
             i++;
         }
         if(i < arr.length && arr[i] === "%"){
             num2 = (parseFloat(num2) / 100).toString();
+            num2Length++;
             i++;
         }
 
@@ -210,17 +232,31 @@ function evaluate(val){
             break;
         }
 
-        //arr = arr.slice(i).unshift(result.toString());
-        arr.splice(0, num1.length + num2.length + 1);
+        //replaces the first expression in the array to the evaluated result
+        arr.splice(0, num1Length + num2Length + 1);
+        
+        //rounds result if it is a decimal so that the decimal doesn't overflow the display
+        if(result.toString().length > 14){
+            numRoundedIntegerLength = Math.round(result).toString().length;
+            if(numRoundedIntegerLength >= 14){
+                result = Math.round(result);
+            }
+            else{
+                result = result.toFixed(14 - numRoundedIntegerLength);
+            }
+        }
+        
         arr = result.toString().split("").concat(arr);
     }
 
     return arr;
 }
 
-let displayVal = "";
+let displayVal = "0";
 
 let display = document.querySelector("#display");
+display.textContent = displayVal;
+
 let buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
