@@ -41,6 +41,8 @@ function addValToDisplay(displayVal, val){
     let secondLastChar = displayVal[displayVal.length - 2];
     let thirdLastChar = displayVal[displayVal.length - 3];
 
+    if(displayVal === "infinity") {displayVal = "0";}
+
     switch(val){
         case "AC":
             //clears and resets displayVal to its default value ("0")
