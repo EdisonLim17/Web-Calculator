@@ -37,6 +37,9 @@ function operate(num1, op, num2){
 
 //takes the input val and alters the currDisplayVal accordingly
 function addValToDisplay(currDisplayVal, val){
+    prevDisplayVal = "";
+    prevDisplay.textContent = prevDisplayVal;
+
     let lastChar = currDisplayVal[currDisplayVal.length - 1];
     let secondLastChar = currDisplayVal[currDisplayVal.length - 2];
     let thirdLastChar = currDisplayVal[currDisplayVal.length - 3];
@@ -127,6 +130,8 @@ function addValToDisplay(currDisplayVal, val){
 
         case "=":
             //evaluates the expression in the currDisplayVal and updates currDisplayVal with the result
+            prevDisplayVal = currDisplayVal;
+            prevDisplay.textContent = prevDisplayVal;
             currDisplayVal = evaluate(currDisplayVal).join("");
             break;
 
@@ -255,9 +260,12 @@ function evaluate(val){
 }
 
 let currDisplayVal = "0";
+let prevDisplayVal = "";
 
 let currDisplay = document.querySelector("#currDisplay");
+let prevDisplay = document.querySelector("#prevDisplay");
 currDisplay.textContent = currDisplayVal;
+prevDisplay.textContent = prevDisplayVal;
 
 let buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
