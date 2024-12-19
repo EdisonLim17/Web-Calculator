@@ -1,5 +1,5 @@
 #main {
-    aspect-ratio: 1 / 1.5;
+    aspect-ratio: 1 / 1.75;
     display: flex;
     flex-direction: column;
     width: 50vw;
@@ -9,24 +9,54 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    text-align: right;
+    
     background-color: black;
     color: white;
-    text-align: right;
-    font-size: 7vw;
+    font-size: 6vw;
 }
 
-#buttons {
+#buttonContainer {
     flex: 3;
     display: flex;
     flex-direction: column;
-    padding: 1%;
+    padding: 5%;
+    gap: 2%;
+
     background-color: black;
 }
 
 .buttonRow {
-    flex: 1;
+    flex: auto;
     display: flex;
     flex-direction: row;
+    gap: 2%;
+    padding: 1%;
+}
+
+button {
+    flex: 1;
+    font-size: 3vw;
+    border-radius: 50%;
+    border: none;
+    aspect-ratio: 1 / 1;
+
+    background-color: #333333;
+    color: white;
+}
+
+#zero {
+    flex-grow: 2;
+    border-radius: 999px;
+    aspect-ratio: auto;
+}
+
+button:hover {
+    background-color: #444444;
+}
+
+button:active {
+    background-color: #666666;
 }
 
 .special {
@@ -51,22 +81,4 @@
 
 .operator:active {
     background-color: hsl(40, 100%, 80%);
-}
-
-button {
-    flex: 1;
-    font-size: 3vw;
-    border-radius: 100%;
-    border: none;
-    margin: 1%;
-    background-color: #333333;
-    color: white;
-}
-
-button:hover {
-    background-color: #444444;
-}
-
-button:active {
-    background-color: #666666;
 }
