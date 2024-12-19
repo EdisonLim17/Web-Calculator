@@ -266,3 +266,46 @@ buttons.forEach((button) => {
         display.textContent = displayVal;
     });
 });
+
+document.addEventListener("keydown", (e) => {
+    if(!isNaN(e.key)) {
+        displayVal = addValToDisplay(displayVal, e.key);
+        display.textContent = displayVal;
+    }
+    else if(e.key === ".") {
+        displayVal = addValToDisplay(displayVal, ".");
+        display.textContent = displayVal;
+    }
+    else if(e.key === "%") {
+        displayVal = addValToDisplay(displayVal, "%");
+        display.textContent = displayVal;
+    }
+    else if(e.key === "/") {
+        displayVal = addValToDisplay(displayVal, "÷");
+        display.textContent = displayVal;
+    }
+    else if(e.key === "*") {
+        displayVal = addValToDisplay(displayVal, "×");
+        display.textContent = displayVal;
+    }
+    else if(e.key === "-") {
+        displayVal = addValToDisplay(displayVal, "-");
+        display.textContent = displayVal;
+    }
+    else if(e.key === "+") {
+        displayVal = addValToDisplay(displayVal, "+");
+        display.textContent = displayVal;
+    }
+    else if(e.key === "Enter") {
+        displayVal = addValToDisplay(displayVal, "=");
+        display.textContent = displayVal;
+    }
+    else if(e.key === "Backspace") {
+        displayVal = addValToDisplay(displayVal, "C");
+        display.textContent = displayVal;
+    }
+    else if(e.key === "Escape") {
+        displayVal = addValToDisplay(displayVal, "AC");
+        display.textContent = displayVal;
+    }
+});
