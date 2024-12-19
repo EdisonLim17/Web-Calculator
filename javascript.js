@@ -35,25 +35,25 @@ function operate(num1, op, num2){
     }
 }
 
-//takes the input val and alters the displayVal accordingly
-function addValToDisplay(displayVal, val){
-    let lastChar = displayVal[displayVal.length - 1];
-    let secondLastChar = displayVal[displayVal.length - 2];
-    let thirdLastChar = displayVal[displayVal.length - 3];
+//takes the input val and alters the currDisplayVal accordingly
+function addValToDisplay(currDisplayVal, val){
+    let lastChar = currDisplayVal[currDisplayVal.length - 1];
+    let secondLastChar = currDisplayVal[currDisplayVal.length - 2];
+    let thirdLastChar = currDisplayVal[currDisplayVal.length - 3];
 
-    if(displayVal === "infinity") {displayVal = "0";}
+    if(currDisplayVal === "infinity") {currDisplayVal = "0";}
 
     switch(val){
         case "AC":
-            //clears and resets displayVal to its default value ("0")
-            displayVal = "0";
+            //clears and resets currDisplayVal to its default value ("0")
+            currDisplayVal = "0";
             break;
         
         case "C":
-            //deletes the last character in the displayVal
-            displayVal = displayVal.slice(0, displayVal.length - 1);
-            //Resets displayVal to its default value ("0") if it ends up being empty
-            if(displayVal === "") displayVal = "0";
+            //deletes the last character in the currDisplayVal
+            currDisplayVal = currDisplayVal.slice(0, currDisplayVal.length - 1);
+            //Resets currDisplayVal to its default value ("0") if it ends up being empty
+            if(currDisplayVal === "") currDisplayVal = "0";
             break;
 
         case "%":
@@ -61,19 +61,19 @@ function addValToDisplay(displayVal, val){
                 //Replaces last input(s) with "%" if they were operators or "%"
                 if(secondLastChar === "%" || secondLastChar === "÷" || secondLastChar === "×"){
                     if(thirdLastChar === "%"){
-                        displayVal = displayVal.slice(0, displayVal.length - 3).concat(val);
+                        currDisplayVal = currDisplayVal.slice(0, currDisplayVal.length - 3).concat(val);
                     }
                     else{
-                        displayVal = displayVal.slice(0, displayVal.length - 2).concat(val);
+                        currDisplayVal = currDisplayVal.slice(0, currDisplayVal.length - 2).concat(val);
                     }
                 }
                 else{
-                    displayVal = displayVal.slice(0, displayVal.length - 1).concat(val);
+                    currDisplayVal = currDisplayVal.slice(0, currDisplayVal.length - 1).concat(val);
                 }
             }
             else {
-                //Adds "%" to displayVal otherwise
-                displayVal = displayVal.concat(val);
+                //Adds "%" to currDisplayVal otherwise
+                currDisplayVal = currDisplayVal.concat(val);
             }
             break;
 
@@ -83,66 +83,66 @@ function addValToDisplay(displayVal, val){
             if(lastChar === "-"){
                 if(secondLastChar === "÷" || secondLastChar === "×"){
                     //Replaces last two inputs with the operator in val if they were a "÷" or "×" followed by a "-"
-                    displayVal = displayVal.slice(0, displayVal.length - 2).concat(val);
+                    currDisplayVal = currDisplayVal.slice(0, currDisplayVal.length - 2).concat(val);
                 }
                 else{
                     //Replaces the last input with the operator in val if it was "-" following a number or percentage
-                    displayVal = displayVal.slice(0, displayVal.length - 1).concat(val);
+                    currDisplayVal = currDisplayVal.slice(0, currDisplayVal.length - 1).concat(val);
                 }
             }
             else if(lastChar === "÷" || lastChar === "×" || lastChar === "+"){
                 //Replaces the last input with the operator in val if it was any other operator
-                displayVal = displayVal.slice(0, displayVal.length - 1).concat(val);
+                currDisplayVal = currDisplayVal.slice(0, currDisplayVal.length - 1).concat(val);
             }
             else{
-                //Adds the operator in val to the displayVal otherwise
-                displayVal = displayVal.concat(val);
+                //Adds the operator in val to the currDisplayVal otherwise
+                currDisplayVal = currDisplayVal.concat(val);
             }
             break;
 
         case "-":
             if(lastChar === "+"){
                 //Replaces the last input with "-" if it was a "+"
-                displayVal = displayVal.slice(0, displayVal.length - 1).concat(val);
+                currDisplayVal = currDisplayVal.slice(0, currDisplayVal.length - 1).concat(val);
             }
             else if(lastChar !== "-"){
-                //Adds "-" to displayVal if the last input was not "+" or "-"
-                displayVal = displayVal.concat(val);
+                //Adds "-" to currDisplayVal if the last input was not "+" or "-"
+                currDisplayVal = currDisplayVal.concat(val);
             }
             break;
 
         case ".":
             if(lastChar === "÷" || lastChar === "×" || lastChar == "-" || lastChar === "+"){
                 //Adds a new number starting with "0." if the last input was an operator
-                displayVal = displayVal.concat("0.");
+                currDisplayVal = currDisplayVal.concat("0.");
             }
             else if(!isNaN(lastChar)){
-                let lastNum = findLastNum(displayVal);
-                //Adds "." to displayVal if the last input was part of a number that didn't have "." already
+                let lastNum = findLastNum(currDisplayVal);
+                //Adds "." to currDisplayVal if the last input was part of a number that didn't have "." already
                 if(!lastNum.includes(".")){
-                    displayVal = displayVal.concat(val);
+                    currDisplayVal = currDisplayVal.concat(val);
                 }
             }
             break;
 
         case "=":
-            //evaluates the expression in the displayVal and updates displayVal with the result
-            displayVal = evaluate(displayVal).join("");
+            //evaluates the expression in the currDisplayVal and updates currDisplayVal with the result
+            currDisplayVal = evaluate(currDisplayVal).join("");
             break;
 
         default:
-            //Adds val to displayVal otherwise, it the last input wasn't "%"
+            //Adds val to currDisplayVal otherwise, it the last input wasn't "%"
             if(lastChar !== "%"){
-                if(findLastNum(displayVal) === "0"){
+                if(findLastNum(currDisplayVal) === "0"){
                     //Replace leading 0 with the number if it isn't "0"
-                    if(val !== "0") displayVal = displayVal.slice(0, displayVal.length - 1).concat(val);
+                    if(val !== "0") currDisplayVal = currDisplayVal.slice(0, currDisplayVal.length - 1).concat(val);
                 }
-                //Add number to displayVal otherwise
-                else displayVal = displayVal.concat(val);
+                //Add number to currDisplayVal otherwise
+                else currDisplayVal = currDisplayVal.concat(val);
             }
     }
     
-    return displayVal;
+    return currDisplayVal;
 }
 
 //determines and returns the last full number in str (no operators)
@@ -254,58 +254,58 @@ function evaluate(val){
     return arr;
 }
 
-let displayVal = "0";
+let currDisplayVal = "0";
 
-let display = document.querySelector("#display");
-display.textContent = displayVal;
+let currDisplay = document.querySelector("#currDisplay");
+currDisplay.textContent = currDisplayVal;
 
 let buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
-        displayVal = addValToDisplay(displayVal, button.textContent);
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, button.textContent);
+        currDisplay.textContent = currDisplayVal;
     });
 });
 
 document.addEventListener("keydown", (e) => {
     if(!isNaN(e.key)) {
-        displayVal = addValToDisplay(displayVal, e.key);
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, e.key);
+        currDisplay.textContent = currDisplayVal;
     }
     else if(e.key === ".") {
-        displayVal = addValToDisplay(displayVal, ".");
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, ".");
+        currDisplay.textContent = currDisplayVal;
     }
     else if(e.key === "%") {
-        displayVal = addValToDisplay(displayVal, "%");
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, "%");
+        currDisplay.textContent = currDisplayVal;
     }
     else if(e.key === "/") {
-        displayVal = addValToDisplay(displayVal, "÷");
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, "÷");
+        currDisplay.textContent = currDisplayVal;
     }
     else if(e.key === "*") {
-        displayVal = addValToDisplay(displayVal, "×");
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, "×");
+        currDisplay.textContent = currDisplayVal;
     }
     else if(e.key === "-") {
-        displayVal = addValToDisplay(displayVal, "-");
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, "-");
+        currDisplay.textContent = currDisplayVal;
     }
     else if(e.key === "+") {
-        displayVal = addValToDisplay(displayVal, "+");
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, "+");
+        currDisplay.textContent = currDisplayVal;
     }
     else if(e.key === "Enter") {
-        displayVal = addValToDisplay(displayVal, "=");
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, "=");
+        currDisplay.textContent = currDisplayVal;
     }
     else if(e.key === "Backspace") {
-        displayVal = addValToDisplay(displayVal, "C");
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, "C");
+        currDisplay.textContent = currDisplayVal;
     }
     else if(e.key === "Escape") {
-        displayVal = addValToDisplay(displayVal, "AC");
-        display.textContent = displayVal;
+        currDisplayVal = addValToDisplay(currDisplayVal, "AC");
+        currDisplay.textContent = currDisplayVal;
     }
 });
