@@ -31,9 +31,12 @@ footer {
     display: flex;
     flex-direction: column-reverse;
     align-items: end;
+    overflow: hidden;
 
     color: gray;
     font-size: 3vw;
+    mask-image: linear-gradient(to left, gray 90%, transparent 100%);
+    -webskit-mask-image: linear-gradient(to left, gray 90%, transparent 100%);
 }
 
 #currDisplay {
@@ -41,9 +44,12 @@ footer {
     display: flex;
     flex-direction: column-reverse;
     align-items: end;
+    overflow: hidden;
 
     color: white;
     font-size: 6vw;
+    mask-image: linear-gradient(to left, white 90%, transparent 100%);
+    -webskit-mask-image: linear-gradient(to left, white 90%, transparent 100%);
 }
 
 #buttonContainer {
