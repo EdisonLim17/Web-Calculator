@@ -11,28 +11,28 @@ function multiply(a, b){
 }
 
 function divide(a, b){
-    if (b == 0) return "infinity";
+    if (b === 0) return "infinity";
     return a / b;
 }
 
 //performs the operation op on num1 and num2, if it is a valid operation
 function operate(num1, op, num2){
-    if (op == "+"){
+    if (op === "+"){
         return(add(num1, num2));
     }
-    else if(op == "-"){
+    else if(op === "-"){
         return subtract(num1, num2);
     }
-    else if(op == "×"){
+    else if(op === "×"){
         return multiply(num1, num2);
     }
-    else if(op == "÷"){
+    else if(op === "÷"){
         return divide(num1, num2);
     }
-    else{
-        //is this possible?
-        return "Invalid Operator";
-    }
+    // else{
+    //     //is this possible?
+    //     return "Invalid Operator";
+    // }
 }
 
 //takes the input val and alters the currDisplayVal accordingly
@@ -60,7 +60,7 @@ function addValToDisplay(currDisplayVal, val){
             break;
 
         case "%":
-            if(lastChar === "%" || lastChar === "÷" || lastChar === "×" || lastChar == "-" || lastChar === "+"){
+            if(lastChar === "%" || lastChar === "÷" || lastChar === "×" || lastChar === "-" || lastChar === "+"){
                 //Replaces last input(s) with "%" if they were operators or "%"
                 if(secondLastChar === "%" || secondLastChar === "÷" || secondLastChar === "×"){
                     if(thirdLastChar === "%"){
@@ -115,7 +115,7 @@ function addValToDisplay(currDisplayVal, val){
             break;
 
         case ".":
-            if(lastChar === "÷" || lastChar === "×" || lastChar == "-" || lastChar === "+"){
+            if(lastChar === "÷" || lastChar === "×" || lastChar === "-" || lastChar === "+"){
                 //Adds a new number starting with "0." if the last input was an operator
                 currDisplayVal = currDisplayVal.concat("0.");
             }
