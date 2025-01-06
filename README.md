@@ -7,3 +7,5 @@ Keyboard support is included too:
 - All Clear: escape
 - Clear: backspace
 - other inputs: their corresponding keys
+
+You can checkout the project [here](https://edisonlim17.github.io/Web-Calculator/)!
